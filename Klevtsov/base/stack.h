@@ -22,11 +22,11 @@ public:
   {
     delete [] pMem;
   }
-  bool empty() const inline
+  inline bool empty() const
   {
 	  return top == -1;
   }
-  bool full() const inline
+  inline bool full() const
   {
 	  return top == size - 1;
   }
