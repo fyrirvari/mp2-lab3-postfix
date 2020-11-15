@@ -6,7 +6,7 @@ TEST(TPostfix, can_create_postfix)
   ASSERT_NO_THROW(TPostfix p);
 }
 
-TEST(TPostfix, can_create_based_in_expression)
+TEST(TPostfix, can_create_based_on_expression_like_string)
 {
 	ASSERT_NO_THROW(TPostfix p("a + b"));
 }

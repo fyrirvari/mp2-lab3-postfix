@@ -46,7 +46,20 @@ string TPostfix::convert(vector<string>& separated, size_t first, size_t last)
 	TStack<string> operations;
 	for (size_t i = first; i < last; ++i)
 	{
-		if (!contains(table, separated[i]))
+		{
+			bool sub = false;
+			while (separated[i][0] == '-')
+			{
+				sub = !sub;
+				separated[i] = separated[i].substr(1, separated[i].length());
+			}
+			if (sub)
+			{
+				postfix += "0 ";
+				operations.push("-");
+			}
+		}
+		if (!contains(table, separated[i]))	
 			postfix += separated[i] + " ";
 		else if (separated[i] == "(")
 		{
@@ -99,7 +112,9 @@ double TPostfix::Calculate()
 	{
 		if (!contains(table, element))
 		{
-			if (isNumber(element))
+			if (contains(constants, element))
+				results.push(constants[element]);
+			else if (isNumber(element))
 				results.push(strtod(element.c_str(), nullptr));
 			else
 			{
@@ -123,6 +138,8 @@ double TPostfix::Calculate()
 				if (element == "ln") results.push(log(variable));
 				if (element == "sin") results.push(sin(variable));
 				if (element == "cos") results.push(cos(variable));
+				if (element == "sqrt") results.push(sqrt(variable));
+				break;
 			}
 			case 2:
 			{
@@ -133,6 +150,7 @@ double TPostfix::Calculate()
 				if (element == "*") results.push(first * second);
 				if (element == "/") results.push(first / second);
 				if (element == "^") results.push(pow(first, second));
+				if (element == "log") results.push(log(second) / log(first));
 				break;
 			}
 			default:
